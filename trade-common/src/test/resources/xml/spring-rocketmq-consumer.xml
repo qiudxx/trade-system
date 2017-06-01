@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+     ">
+    <bean id="aceMQProducer" class="com.ace.trade.common.rocketmq.AceMQProducer" init-method="init">
+        <property name="groupName" value="AceProducerGroup"></property>
+        <property name="namesrvAddr" value="192.168.1.211:9876"></property>
+    </bean>
+
+    <bean id="testProcessorA" class="com.ace.trade.common.rocketmq.TestProcessor"></bean>
+    <bean id="testProcessorB" class="com.ace.trade.common.rocketmq.TestProcessorB"></bean>
+
+
+    <bean id="aceMQConsumerA" class="com.ace.trade.common.rocketmq.AceMQConsumer" init-method="init">
+        <property name="groupName" value="AceConsumerGroup"></property>
+        <property name="topic" value="TestTopic"></property>
+        <property name="namesrvAddr" value="192.168.1.211:9876"></property>
+        <property name="processor" ref="testProcessorA"></property>
+        <property name="tag" value="tagA"></property>
+    </bean>
+
+
+    <bean id="aceMQConsumerB" class="com.ace.trade.common.rocketmq.AceMQConsumer" init-method="init">
+        <property name="groupName" value="AceConsumerGroupB"></property>
+        <property name="topic" value="TestTopic"></property>
+        <property name="namesrvAddr" value="192.168.1.211:9876"></property>
+        <property name="processor" ref="testProcessorB"></property>
+        <property name="tag" value="tagB"></property>
+    </bean>
+
+
+</beans>
